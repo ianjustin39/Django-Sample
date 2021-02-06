@@ -124,5 +124,89 @@ urlpatterns = [
 
 ```
 
-#### Models
+#### 設定 Models
 Django Model 在定義資料庫的結構（schema），並透過 Django 指令創建資料庫、資料表及欄位。
+優點：轉換資料庫相當方便
+
+到main/setting.py內設定資料庫，python預設是SQLite。
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',         # 資料庫引擎
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),   # 資料庫名稱
+    }
+}
+```
+
+到todoList/model.py內宣告一個class，並定義屬性。Django 會依據這個建立資料表，以及資料表裡的欄位設定：
+```python
+from django.db import models
+
+
+class TodoList(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "todo_list"
+
+```
+接著來同步資料庫：
+```
+python manage.py makemigrations
+---
+Migrations for 'todoList':
+  todoList/migrations/0001_initial.py
+    - Create model TodoList
+```
+```
+python manage.py migrate
+---
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions, todoList
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
+  Applying todoList.0001_initial... OK
+
+```
+makemigrations ： 會幚你建立一個檔案，去記錄你更新了哪些東西。
+migrate ： 根據 makemigrations 建立的檔案，去更新你的 DATABASE 。
+
+建立完成後可以使用SQLiteBrowser觀看DB，會發現多了一個todo_list的table
+
+#### Django ORM
+使用python shell試試看
+```
+python manage.py shell
+```
+*註：如果直接打`python`進去的話，會抓不到django設定的環境變數。*
+
+新增一筆資料：
+```
+>>> from todoList.models import TodoList 
+>>> TodoList.objects.create(title='study django', description='create django project')
+<TodoList: TodoList object (1)>
+```
+先將TodoList import進來，接著新增一筆資料，就可以到SQLiteBrowser查看是否有成功。剩餘的就不在這麼多做敘述，之後會講完整程式碼寫出來。
+
+
+*註：如果要退出python shell的話輸入`exit()`即可。*
+
