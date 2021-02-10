@@ -250,3 +250,9 @@ from .models import TodoList
 admin.site.register(TodoList)
 ```
 現在回到管理後台，就可以看到 todoList 的 table。
+
+
+## resource
+[django-tutorial](https://github.com/twtrubiks/django-tutorial)
+
+[Django Girls 學習指南](https://djangogirlstaipei.gitbooks.io/django-girls-taipei-tutorial/content/)
