@@ -1,6 +1,6 @@
 # Django-Sample
 
-### 建立 Django Project
+## 建立 Django Project
 安裝 Django
 ```text
 pipenv install django
@@ -20,7 +20,7 @@ python manage.py runserver
 
 **可以把django_sample/django_sample改成django_sample/main比較好辨識。**
 
-### 建立 Django App
+## 建立 Django App
 通常依照功能建立一個app，例如：建立一個Todo List的app
 ```text
 python manage.py startapp todoList
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'todoList' // 新增這行
 ]
 ```
-#### 建立 Views
+### 建立 Views
 到todoList/views.py內新增以下程式碼。
 ```python
 from django.http import HttpResponse
@@ -47,7 +47,7 @@ def hello_world(request):
     return HttpResponse("Hello World!")
 
 ```
-#### 設定 URLconf
+### 設定 URLconf
 到main/urls.py內設定剛剛建立的view
 ```python
 from django.conf.urls import url
@@ -61,7 +61,7 @@ urlpatterns = [
 ]
 ```
 
-#### 建立 Templates
+### 建立 Templates
 現在要來用templates建立畫面，在main/templates/新增index.html。如果沒有templates的資料夾，就自行新增一個。
 ```html
 <!DOCTYPE html>
@@ -124,7 +124,7 @@ urlpatterns = [
 
 ```
 
-#### 設定 Models
+### 設定 Models
 Django Model 在定義資料庫的結構（schema），並透過 Django 指令創建資料庫、資料表及欄位。
 優點：轉換資料庫相當方便
 
@@ -192,7 +192,7 @@ migrate ： 根據 makemigrations 建立的檔案，去更新你的 DATABASE 。
 
 建立完成後可以使用SQLiteBrowser觀看DB，會發現多了一個todo_list的table
 
-#### Django ORM
+### Django ORM
 使用python shell試試看
 ```
 python manage.py shell
@@ -210,7 +210,7 @@ python manage.py shell
 
 *註：如果要退出python shell的話輸入`exit()`即可。*
 
-#### Django Admin
+### Django Admin
 Django 內建有後台管理介面。我們可以透過 Django Admin 看到實際的資料，並跟資料庫進行互動。在建立時基本上就會產生好設定，若沒有的話，可以照以下步驟做設定。
 
 在 main/setting.py 內的 INSTALLED_APPS 加入下方設定：
@@ -239,7 +239,7 @@ Password (again):
 Superuser created successfully.
 ```
 
-連至 http://127.0.0.1:8000/admin，可以看到管理後台的登入頁面。
+連至 http://127.0.0.1:8000/admin ，可以看到管理後台的登入頁面。
 
 在 todoList/admin.py 註冊 model，讓後台可以看到 DB。
 
