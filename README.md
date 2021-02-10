@@ -210,3 +210,43 @@ python manage.py shell
 
 *註：如果要退出python shell的話輸入`exit()`即可。*
 
+#### Django Admin
+Django 內建有後台管理介面。我們可以透過 Django Admin 看到實際的資料，並跟資料庫進行互動。在建立時基本上就會產生好設定，若沒有的話，可以照以下步驟做設定。
+
+在 main/setting.py 內的 INSTALLED_APPS 加入下方設定：
+```python
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    ...
+)
+```
+在 main/urls.py 設定管理後台的 URL：
+```python
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    # 略
+]
+```
+基本上這樣設定就完成了。接下來就是建立 superuser。在 Terminal輸入：
+```text
+python manage.py createsuperuser
+
+--- 以下自訂 ---
+Username (leave blank to use 'YOUR_NAME'):
+Email address: your_name@yourmail.com
+Password:
+Password (again):
+Superuser created successfully.
+```
+
+連至 http://127.0.0.1:8000/admin，可以看到管理後台的登入頁面。
+
+在 todoList/admin.py 註冊 model，讓後台可以看到 DB。
+
+```python
+from django.contrib import admin
+from .models import TodoList
+
+admin.site.register(TodoList)
+```
+現在回到管理後台，就可以看到 todoList 的 table。
